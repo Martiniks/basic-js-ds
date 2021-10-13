@@ -13,7 +13,7 @@ const {NotImplementedError} = require('../extensions/index.js');
  *
  */
 module.exports = class Stack {
-    _stack = [];
+
     constructor() {
         this._stack = [];
     }
@@ -23,7 +23,7 @@ module.exports = class Stack {
     }
 
     pop() {
-        if (this._stack.length ) {
+        if (this._stack.length < 1) {
             return undefined;
         }
         let last = this._stack[this._stack.length - 1];
@@ -32,9 +32,9 @@ module.exports = class Stack {
     }
 
     peek() {
-        if (this._stack.length ) {
+        if (this._stack.length < 1) {
             return undefined;
         }
-        return this._stack[this._stack.length - 1] ;
+        return this._stack[this._stack.length - 1];
     }
 }
