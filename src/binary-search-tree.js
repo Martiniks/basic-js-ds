@@ -104,10 +104,10 @@ const {Node} = require('../extensions/list-tree.js');
                 return;
             }
             if (this.left==null)  {
-                leftData(this, this.right)
+                leftData(this, this.right,'right')
                 return;
             }
-            leftData(this, this.left)
+            leftData(this, this.left,'left')
             return;
         }
 
@@ -138,7 +138,7 @@ const {Node} = require('../extensions/list-tree.js');
                     parrent.right = current.left;
                     return;
                 }
-                leftData(current, current.left)
+                leftData(current, current.left,'left')
                 // тут когда есть обе ветки
             }
         } else {
@@ -151,15 +151,14 @@ const {Node} = require('../extensions/list-tree.js');
                     return;
                 }
 
-                leftData(current, current.left)
+                leftData(current, current.left,'left')
                 // тут когда есть обе ветки
             }
 
         }
 
-        function leftData(curr, elem) {
+        function leftData(curr, elem,stick) {
             let parr = curr;
-            let stick = 'left';
             while (elem.right !== null && elem.left !== null) {
                 parr = elem;
                 if (elem.right == null) {
@@ -217,13 +216,15 @@ const {Node} = require('../extensions/list-tree.js');
 // tree.add(9);
 // tree.add(14);
 // tree.add(2);
-// tree.add(6);
-// tree.add(128);
-// tree.add(8);
-// tree.add(31);
-// tree.add(54);
-// tree.add(1);
+// // tree.add(6);
+// // tree.add(128);
+// // tree.add(8);
+// // tree.add(31);
+// // tree.add(54);
+// // tree.add(1);
+// // tree.remove(9);
+//  console.log(tree)
 // tree.remove(9);
 // console.log(tree)
-// // // tree.remove(8);
-// // // tree.remove(9);
+// tree.remove(14);
+// console.log(tree)
