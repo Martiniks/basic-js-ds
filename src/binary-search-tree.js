@@ -6,7 +6,7 @@ const {Node} = require('../extensions/list-tree.js');
  * Implement simple binary search tree according to task description
  * using Node from extensions
  */
-module.exports =    class BinarySearchTree {
+module.exports = class BinarySearchTree {
 
     constructor() {
         this.data = null;
@@ -73,7 +73,6 @@ module.exports =    class BinarySearchTree {
             }
             newData = newData.data < data ? newData.right : newData.left;
         }
-
         return false
 
     }
@@ -96,21 +95,81 @@ module.exports =    class BinarySearchTree {
     }
 
     remove(data) {
-        let removedNode= this.find(data)
-        if (removedNode == null) {
-            return
+        if (!this.has(data)) {
+            return;
+        }
+        if (this.data==data) {
+            leftData(this, this.left)
+            return;
         }
 
-        let newLeft= removedNode.left
 
-        if (newLeft!==null) {
-            removedNode.data=newLeft.data
-            removedNode.left=newLeft.left
+        let parrent = this;
+        let current = this;
+        if (current.data < data) {
+            current = parrent.right
+        } else {
+            current = parrent.left
+        }
 
+        while (current.data !== data) {
+            parrent = current;
+            if (current.data < data) {
+                current = current.right
+            } else {
+                current = current.left
+            }
+        }
+
+        if (parrent.data < data) {
+            if (current.data == data) {
+                if (current.left == null) {
+                    parrent.right = current.right;
+                    return;
+                } else if (current.right == null) {
+                    parrent.right = current.left;
+                    return;
+                }
+                leftData(current, current.left)
+                // тут когда есть обе ветки
+            }
+        } else {
+            if (current.data == data) {
+                if (current.left == null) {
+                    parrent.left = current.right;
+                    return;
+                } else if (current.right == null) {
+                    parrent.left = current.left;
+                    return;
+                }
+
+                leftData(current, current.left)
+                // тут когда есть обе ветки
+            }
 
         }
-        let newRight= removedNode.right
-        console.log('le', newLeft,'ri',newRight)
+
+        function leftData(curr, elem) {
+            let parr = curr;
+            let stick = 'left';
+            while (elem.right !== null && elem.left !== null) {
+                parr = elem;
+                if (elem.right == null) {
+                    elem = elem.left;
+                } else {
+                    elem = elem.right
+                    stick = 'right';
+                }
+            }
+            let leaf = elem.data;
+            if (stick == 'left') {
+                parr.left = null
+            } else {
+                parr.right = null
+            }
+            curr.data = leaf;
+        }
+
 
     }
 
@@ -118,13 +177,13 @@ module.exports =    class BinarySearchTree {
         if (!this || !this.data) {
             return null
         }
-        let minData=this.data;
-        let newData =  this.left;
+        let minData = this.data;
+        let newData = this.left;
         while (newData !== null) {
             if (newData.data < minData) {
                 minData = newData.data;
             }
-            newData =  newData.left;
+            newData = newData.left;
         }
         return minData
     }
@@ -133,13 +192,13 @@ module.exports =    class BinarySearchTree {
         if (!this || !this.data) {
             return null
         }
-        let maxData=this.data;
-        let newData =  this.right;
+        let maxData = this.data;
+        let newData = this.right;
         while (newData !== null) {
             if (newData.data > maxData) {
                 maxData = newData.data;
             }
-            newData =  newData.right;
+            newData = newData.right;
         }
         return maxData
     }
@@ -156,6 +215,7 @@ module.exports =    class BinarySearchTree {
 // tree.add(31);
 // tree.add(54);
 // tree.add(1);
-// tree.remove(14);
-// // tree.remove(8);
-// // tree.remove(9);
+// tree.remove(8);
+// console.log(tree)
+// // // tree.remove(8);
+// // // tree.remove(9);
